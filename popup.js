@@ -48,6 +48,10 @@ function displayResults(message) {
   // Display summary information
   displaySummaryInformation(message, resultsDiv);
 
+  // if (message.langCheck) {
+  //   displayLangInfo(message.langCheck);
+  // }
+
   // Dynamically create collapsible sections for detailed information
   if (message.imagesWithoutAltDetails && message.imagesWithoutAltDetails.length > 0) {
       resultsDiv.appendChild(createCollapsibleSection('Images Without Alt Text', message.imagesWithoutAltDetails));
@@ -56,6 +60,8 @@ function displayResults(message) {
   if (message.inaccessibleElementsDetails && message.inaccessibleElementsDetails.length > 0) {
       resultsDiv.appendChild(createCollapsibleSection('Inaccessible Interactive Elements', message.inaccessibleElementsDetails));
   }
+
+  
 }
 
 /**
@@ -130,11 +136,9 @@ function displaySummaryInformation(message, container) {
   totalImages.textContent = `Total images: ${message.totalImages}`;
   summaryInfo.appendChild(totalImages);
 
-  // Images without alt text
   const imagesWithoutAlt = document.createElement('p');
   imagesWithoutAlt.textContent = `Images without alt text: ${message.totalImagesWithoutAlt}`;
   summaryInfo.appendChild(imagesWithoutAlt);
-
 
   const improperlyNestedHeadings = document.createElement('p');
   improperlyNestedHeadings.textContent = `Improperly nested headings: ${message.improperlyNestedHeadings ? 'Yes' : 'No'}`;
@@ -143,9 +147,19 @@ function displaySummaryInformation(message, container) {
   const inaccessibleElementsCount = document.createElement('p');
   inaccessibleElementsCount.textContent = `Interactive elements not keyboard accessible: ${message.inaccessibleElementsCount}`;
   summaryInfo.appendChild(inaccessibleElementsCount);
-  container.appendChild(summaryInfo);
 
+  // Include lang attribute check results
+  const langAttribute = document.createElement('p');
+  if (message.langCheck.validLang) {
+      langAttribute.textContent = `Page language set to: ${message.langCheck.lang}`;
+  } else {
+      langAttribute.textContent = "No 'lang' attribute set or incorrect.";
+  }
+  summaryInfo.appendChild(langAttribute);
+
+  container.appendChild(summaryInfo);
 }
+
 
 
 // Existing code remains unchanged
@@ -179,3 +193,10 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
+
+function displayLangInfo(langData) {
+  const langInfoDiv = document.createElement('div');
+  langInfoDiv.textContent = langData.validLang ? `Language set to: ${langData.lang}` : "No 'lang' attribute set.";
+  // Adjust styling as needed
+  document.getElementById('results').appendChild(langInfoDiv);
+}

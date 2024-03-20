@@ -55,6 +55,7 @@ function performAccessibilityChecksAndSendResults() {
   const imagesWithoutAltDetails = collectImagesWithoutAltDetails();
   const improperlyNestedHeadings = checkForProperHeadings();
   const inaccessibleElementsDetails = collectInaccessibleInteractiveElementsDetails();
+  const langCheck = checkLangAttribute();
 
   chrome.runtime.sendMessage({
     totalImages: document.getElementsByTagName('img').length,
@@ -62,7 +63,8 @@ function performAccessibilityChecksAndSendResults() {
       improperlyNestedHeadings,
       inaccessibleElementsCount: inaccessibleElementsDetails.length,
       imagesWithoutAltDetails,
-      inaccessibleElementsDetails
+      inaccessibleElementsDetails,
+      langCheck: langCheck
   });
 }
 
@@ -123,4 +125,13 @@ function highlightImageBySrc(src) {
           img.scrollIntoView({behavior: 'smooth', block: 'center'});
       }
   });
+}
+
+function checkLangAttribute() {
+  const htmlLang = document.documentElement.lang;
+  const hasValidLang = htmlLang && htmlLang.trim() !== '';
+  return {
+      validLang: hasValidLang,
+      lang: htmlLang
+  };
 }
