@@ -146,3 +146,36 @@ function displaySummaryInformation(message, container) {
   container.appendChild(summaryInfo);
 
 }
+
+
+// Existing code remains unchanged
+
+// Function to adjust text size on the webpage
+function adjustTextSize(textSize) {
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      chrome.scripting.executeScript({
+          target: {tabId: tabs[0].id},
+          func: textSizeAdjustmentFunction,
+          args: [textSize],
+      });
+  });
+}
+
+// This function will be executed in the context of the webpage
+function textSizeAdjustmentFunction(newSize) {
+  document.documentElement.style.fontSize = newSize + 'em';
+}
+
+// Add event listener for the text size slider
+document.addEventListener('DOMContentLoaded', function() {
+  attachButtonListeners();
+  
+  // Add a listener for the slider
+  const textSizeSlider = document.getElementById('textSizeSlider');
+  if (textSizeSlider) {
+      textSizeSlider.addEventListener('input', function() {
+          adjustTextSize(this.value);
+      });
+  }
+});
+

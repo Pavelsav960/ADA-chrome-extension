@@ -69,12 +69,13 @@ function performAccessibilityChecksAndSendResults() {
 // Initiate the checks and send results when the script is loaded.
 performAccessibilityChecksAndSendResults();
 
-/**
-* Listens for messages from the popup to highlight specific images.
-*/
+// Listen for messages from the popup
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "highlightImage") {
       highlightImageBySrc(request.src);
+  } else if (request.action === "adjustTextSize") {
+      // Call function to adjust text size
+      adjustTextSizeOnPage(request.textSize);
   }
 });
 
@@ -94,3 +95,32 @@ function highlightImageBySrc(src) {
 
 
 
+
+/**
+ * Adjusts the text size on the page.
+ * @param {number} textSize The new text size to set.
+ */
+function adjustTextSizeOnPage(textSize) {
+  // Adjusts the font size of the body element and potentially other elements as needed
+  document.body.style.fontSize = textSize + 'px'; // You might choose 'em' or '%' based on your slider's scale
+
+  // Optionally, adjust text size in other elements that do not inherit body's font size directly
+  const elementsToAdjust = document.querySelectorAll('p, h1, h2, h3, h4, h5, h6, div, span, a'); // Add other selectors as needed
+  elementsToAdjust.forEach(element => {
+      element.style.fontSize = textSize + 'px'; // Adjust accordingly
+  });
+}
+
+/**
+* Highlights an image on the page given its source URL.
+* @param {String} src The source URL of the image to highlight.
+*/
+function highlightImageBySrc(src) {
+  const images = document.querySelectorAll('img');
+  images.forEach(img => {
+      if (img.src === src) {
+          img.style.border = '5px solid red'; // Example of highlighting
+          img.scrollIntoView({behavior: 'smooth', block: 'center'});
+      }
+  });
+}

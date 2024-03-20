@@ -106,3 +106,17 @@ button:hover {
 .detail-item {
   cursor: pointer;
 }
+
+
+.text-size-control {
+  margin-top: 20px;
+}
+
+.text-size-control label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+#textSizeSlider {
+  width: 100%;
+}

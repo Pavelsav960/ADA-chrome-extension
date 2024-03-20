@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "ADA Compliance Checker Prototype",
   "version": "0.1",
-  "permissions": ["activeTab", "scripting", "contextMenus"],
+  "permissions": ["activeTab", "scripting", "contextMenus", "storage"],
   "action": {
     "default_popup": "popup.html"
   },
