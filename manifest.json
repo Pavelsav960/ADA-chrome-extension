@@ -2,8 +2,14 @@
   "manifest_version": 3,
   "name": "ADA Compliance Checker Prototype",
   "version": "0.1",
-  "permissions": ["activeTab", "scripting"],
+  "permissions": ["activeTab", "scripting", "contextMenus"],
   "action": {
     "default_popup": "popup.html"
-  }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "host_permissions": [
+    "*://*/*"
+  ]
 }
