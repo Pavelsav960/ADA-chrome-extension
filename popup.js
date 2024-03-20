@@ -65,40 +65,47 @@ function displayResults(message) {
 * @returns {HTMLElement} The collapsible section element.
 */
 function createCollapsibleSection(title, items) {
-  const section = document.createElement('div');
-  section.className = 'section';
+    const section = document.createElement('div');
+    section.className = 'section';
 
-  const button = document.createElement('button');
-  button.className = 'collapsible';
-  button.textContent = title;
-  button.addEventListener('click', function() {
-      this.classList.toggle('active');
-      const content = this.nextElementSibling;
-      content.style.display = content.style.display === 'block' ? 'none' : 'block';
-  });
+    const button = document.createElement('button');
+    button.className = 'collapsible';
+    button.textContent = title;
+    button.addEventListener('click', function() {
+        this.classList.toggle('active');
+        const content = this.nextElementSibling;
+        content.style.display = content.style.display === 'block' ? 'none' : 'block';
+    });
 
-  const content = document.createElement('div');
-  content.className = 'content';
-  content.style.display = 'none';
+    const content = document.createElement('div');
+    content.className = 'content';
+    content.style.display = 'none';
 
-  const list = document.createElement('ul');
-  items.forEach(item => {
-      const listItem = document.createElement('li');
-      listItem.className = 'image-item';
-      listItem.setAttribute('data-src', item.src);
-      listItem.textContent = item.src;
-      listItem.addEventListener('click', function() {
-          highlightImageOnPage(item.src);
-      });
-      list.appendChild(listItem);
-  });
+    const list = document.createElement('ul');
+    items.forEach(item => {
+        const listItem = document.createElement('li');
+        listItem.className = 'detail-item'; // Use a more general class name since it's not always an image
 
-  content.appendChild(list);
-  section.appendChild(button);
-  section.appendChild(content);
+        // Check if the item is a string or has a .src property for image sources
+        if (typeof item === 'string') {
+            listItem.textContent = item; // Directly use the string for non-image items
+        } else if (item.src) {
+            listItem.setAttribute('data-src', item.src);
+            listItem.textContent = item.src;
+            listItem.addEventListener('click', function() {
+                highlightImageOnPage(item.src);
+            });
+        }
+        list.appendChild(listItem);
+    });
 
-  return section;
+    content.appendChild(list);
+    section.appendChild(button);
+    section.appendChild(content);
+
+    return section;
 }
+
 
 /**
 * Sends a message to the content script to highlight an image on the page.

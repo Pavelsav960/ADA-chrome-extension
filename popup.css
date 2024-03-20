@@ -102,3 +102,7 @@ button:hover {
 }
 
 
+
+.detail-item {
+  cursor: pointer;
+}
