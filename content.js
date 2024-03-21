@@ -97,7 +97,6 @@ function highlightImageBySrc(src) {
 
 
 
-
 /**
  * Adjusts the text size on the page.
  * @param {number} textSize The new text size to set.
@@ -113,19 +112,6 @@ function adjustTextSizeOnPage(textSize) {
   });
 }
 
-/**
-* Highlights an image on the page given its source URL.
-* @param {String} src The source URL of the image to highlight.
-*/
-function highlightImageBySrc(src) {
-  const images = document.querySelectorAll('img');
-  images.forEach(img => {
-      if (img.src === src) {
-          img.style.border = '5px solid red'; // Example of highlighting
-          img.scrollIntoView({behavior: 'smooth', block: 'center'});
-      }
-  });
-}
 
 function checkLangAttribute() {
   const htmlLang = document.documentElement.lang;

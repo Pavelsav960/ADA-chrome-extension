@@ -181,6 +181,8 @@ function enhanceLinksAccessibility() {
     } else {
       // Ensure all links are easily visible
       link.style.textDecoration = 'underline';
+      link.style.textDecorationThickness = '5px'; // Adjust the thickness as needed
+      link.style.textUnderlineOffset = '5px';
     }
   });
 }
