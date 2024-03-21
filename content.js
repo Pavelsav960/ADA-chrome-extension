@@ -135,3 +135,4 @@ function checkLangAttribute() {
       lang: htmlLang
   };
 }
+

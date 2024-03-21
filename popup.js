@@ -200,3 +200,28 @@ function displayLangInfo(langData) {
   // Adjust styling as needed
   document.getElementById('results').appendChild(langInfoDiv);
 }
+
+
+document.getElementById('enhanceLinks').addEventListener('click', function() {
+  chrome.tabs.query({active: true, currentWindow: true}, tabs => {
+    chrome.scripting.executeScript({
+      target: {tabId: tabs[0].id},
+      function: enhanceLinksAccessibility,
+    });
+  });
+});
+
+// This function is injected into the page and enhances links accessibility
+function enhanceLinksAccessibility() {
+  const links = document.querySelectorAll('a');
+  links.forEach(link => {
+    if (!link.textContent.trim() && link.querySelectorAll('img').length === 0) {
+      // If the link has no text and contains no images, consider adding an aria-label or text content
+      link.style.outline = '2px solid red'; // Highlight links that might need an aria-label or improvement
+    } else {
+      // Ensure all links are easily visible
+      link.style.textDecoration = 'underline';
+    }
+  });
+}
+
